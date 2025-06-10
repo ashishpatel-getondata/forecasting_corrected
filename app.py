@@ -22,11 +22,7 @@ if uploaded_file is not None:
         date_col = st.selectbox("Select Date Column", df.columns)
         value_col = st.selectbox("Select Value Column (to forecast)", df.columns)
         model_choice = st.radio("Choose Forecasting Model", ("Exponential Smoothing", "SARIMA", "ETS Decomposition"))
-
-        # Only show forecast period input if model supports it
-        forecast_period = None
-        if model_choice != "ETS Decomposition":
-            forecast_period = st.number_input("Number of periods to forecast", min_value=1, value=12)
+        forecast_period = st.number_input("Number of periods to forecast", min_value=1, value=12)
 
         submitted = st.form_submit_button("Submit")
 
