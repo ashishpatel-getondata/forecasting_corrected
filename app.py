@@ -26,7 +26,7 @@ def prepare_sales_data(data, date_column, sales_column, product_column, selected
     if selected_product:
         data = data[data[product_column] == selected_product]
 
-    freq_map = {"D": "D", "W": "W", "M": "M"}
+    freq_map = {"D": "D", "W": "W", "MS": "MS"}
     data_resampled = data.resample(freq_map[frequency]).sum()
     sales_data = data_resampled[sales_column]
     return sales_data
