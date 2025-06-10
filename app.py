@@ -5,7 +5,7 @@ from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.seasonal import seasonal_decompose
 
-st.title("Time Series Forecasting App")
+st.title("Forecasting Models")
 
 st.markdown(
     """
