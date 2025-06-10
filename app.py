@@ -83,5 +83,5 @@ if uploaded_file is not None:
             axes[3].set_ylabel('Residual')
             plt.tight_layout()
 
-            st.subheader("ETS Decomposition (Multiplicative Model)")
+            st.subheader("Seasonal Decomposition (Multiplicative Model)")
             st.pyplot(fig2)
