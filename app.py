@@ -47,7 +47,9 @@ if uploaded_file is not None:
             ax.legend()
             st.pyplot(fig)
 
-            st.dataframe(forecast)
+            forecast_df = forecast.reset_index()
+            forecast_df.columns = ['date', 'forecast']
+            st.dataframe(forecast_df)
 
         elif model_choice == "SARIMA":
             fig, ax = plt.subplots(figsize=(10, 5))
