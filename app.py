@@ -7,8 +7,16 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 
 st.title("Time Series Forecasting App")
 
-st.write("Upload a CSV file and forecast future values using Exponential Smoothing, SARIMA, or view Seasonal Decomposition.")
+st.markdown(
+    """
+    Upload your time series data in CSV format and explore different forecasting models:
+    - **Exponential Smoothing**
+    - **SARIMA**
+    - **Seasonal Decomposition**
 
+    Select the date and value columns, choose a model, and specify the forecast horizon.
+    """
+)
 # File upload
 uploaded_file = st.file_uploader("Upload CSV", type="csv")
 
