@@ -49,6 +49,10 @@ if uploaded_file is not None:
 
             forecast_df = forecast.reset_index()
             forecast_df.columns = ['date', 'forecast']
+
+            forecast_df['date'] = forecast_df['date'].dt.strftime('%Y-%m-%d')
+            forecast_df['forecast'] = forecast_df['forecast'].round(2)
+            
             st.subheader("Forecasted Data")
             st.dataframe(forecast_df)
 
@@ -66,6 +70,10 @@ if uploaded_file is not None:
 
             forecast_df = forecast.reset_index()
             forecast_df.columns = ['date', 'forecast']
+
+            forecast_df['date'] = forecast_df['date'].dt.strftime('%Y-%m-%d')
+            forecast_df['forecast'] = forecast_df['forecast'].round(2)
+            
             st.subheader("Forecasted Data")
             st.dataframe(forecast_df)
 
