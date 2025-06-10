@@ -9,14 +9,16 @@ st.title("Time Series Forecasting App")
 
 st.markdown(
     """
-    Upload your time series data in CSV format and explore different forecasting models:
-    - **Exponential Smoothing**
-    - **SARIMA**
-    - **Seasonal Decomposition**
+    Upload your time series data in CSV format and explore basic time series techniques:
 
-    Select the date and value columns, choose a model, and specify the forecast horizon.
+    - **Exponential Smoothing**: Forecast future values using triple exponential smoothing.
+    - **SARIMA**: Generate forecasts with Seasonal ARIMA modeling.
+    - **Seasonal Decomposition**: Visualize the underlying trend, seasonal, and residual components of the data.
+
+    Select the appropriate columns and method, then specify the forecast horizon if applicable.
     """
 )
+
 # File upload
 uploaded_file = st.file_uploader("Upload CSV", type="csv")
 
