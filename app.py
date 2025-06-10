@@ -32,7 +32,7 @@ def prepare_sales_data(data, date_column, sales_column, product_column, selected
     return sales_data
 
 # Streamlit application
-st.title("Sales Forecasting Application (No ARIMA)")
+st.title("Sales Forecasting Application")
 st.sidebar.header("Model Selection")
 
 models = [
