@@ -47,6 +47,8 @@ if uploaded_file is not None:
             ax.legend()
             st.pyplot(fig)
 
+            st.dataframe(forecast)
+
         elif model_choice == "SARIMA":
             fig, ax = plt.subplots(figsize=(10, 5))
             model = SARIMAX(ts_data, order=(0, 1, 1), seasonal_order=(2, 1, 1, 12))
