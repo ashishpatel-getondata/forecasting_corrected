@@ -3,10 +3,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 st.title("Time Series Forecasting App")
 
-st.write("Upload a CSV file and forecast future values using Exponential Smoothing or SARIMA.")
+st.write("Upload a CSV file and forecast future values using Exponential Smoothing, SARIMA, or view ETS Decomposition.")
 
 # File upload
 uploaded_file = st.file_uploader("Upload CSV", type="csv")
@@ -20,8 +21,13 @@ if uploaded_file is not None:
     with st.form("forecast_form"):
         date_col = st.selectbox("Select Date Column", df.columns)
         value_col = st.selectbox("Select Value Column (to forecast)", df.columns)
-        forecast_period = st.number_input("Number of periods to forecast", min_value=1, value=12)
-        model_choice = st.radio("Choose Forecasting Model", ("Exponential Smoothing", "SARIMA"))
+        model_choice = st.radio("Choose Forecasting Model", ("Exponential Smoothing", "SARIMA", "ETS Decomposition"))
+
+        # Only show forecast period input if model supports it
+        forecast_period = None
+        if model_choice != "ETS Decomposition":
+            forecast_period = st.number_input("Number of periods to forecast", min_value=1, value=12)
+
         submitted = st.form_submit_button("Submit")
 
     if submitted:
@@ -32,9 +38,8 @@ if uploaded_file is not None:
 
         ts_data = df[value_col]
 
-        fig, ax = plt.subplots(figsize=(10, 5))
-
         if model_choice == "Exponential Smoothing":
+            fig, ax = plt.subplots(figsize=(10, 5))
             model = ExponentialSmoothing(ts_data, seasonal_periods=12, trend='add', seasonal='add')
             model_fit = model.fit()
             forecast = model_fit.forecast(forecast_period)
@@ -43,8 +48,11 @@ if uploaded_file is not None:
             ax.plot(model_fit.fittedvalues, label="Fitted")
             ax.plot(forecast, label="Forecast")
             ax.set_title("Triple Exponential Smoothing Forecast")
-        
-        else:  # SARIMA
+            ax.legend()
+            st.pyplot(fig)
+
+        elif model_choice == "SARIMA":
+            fig, ax = plt.subplots(figsize=(10, 5))
             model = SARIMAX(ts_data, order=(0, 1, 1), seasonal_order=(2, 1, 1, 12))
             model_fit = model.fit()
             forecast = model_fit.predict(start=len(ts_data), end=(len(ts_data) + forecast_period - 1))
@@ -52,6 +60,22 @@ if uploaded_file is not None:
             ax.plot(ts_data, label="Original Data")
             ax.plot(forecast, label="SARIMA Forecast")
             ax.set_title("SARIMA Forecast")
+            ax.legend()
+            st.pyplot(fig)
 
-        ax.legend()
-        st.pyplot(fig)
+        elif model_choice == "ETS Decomposition":
+            result = seasonal_decompose(ts_data, model='multiplicative', period=12)
+
+            fig2, axes = plt.subplots(4, 1, figsize=(10, 8), sharex=True)
+            result.observed.plot(ax=axes[0], legend=False)
+            axes[0].set_ylabel('Observed')
+            result.trend.plot(ax=axes[1], legend=False)
+            axes[1].set_ylabel('Trend')
+            result.seasonal.plot(ax=axes[2], legend=False)
+            axes[2].set_ylabel('Seasonal')
+            result.resid.plot(ax=axes[3], legend=False)
+            axes[3].set_ylabel('Residual')
+            plt.tight_layout()
+
+            st.subheader("ETS Decomposition (Multiplicative Model)")
+            st.pyplot(fig2)
