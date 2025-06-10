@@ -12,7 +12,7 @@ st.markdown(
     Upload your time series data in CSV format and explore basic time series techniques:
 
     - **Exponential Smoothing**: Forecast future values using triple exponential smoothing.
-    - **SARIMA**: Generate forecasts with Seasonal ARIMA modeling.
+    - **SARIMA**: Generate forecasts with seasonal autoregressive integrated moving average modeling.
     - **Seasonal Decomposition**: Visualize the underlying trend, seasonal, and residual components of the data.
 
     Select the appropriate columns and method, then specify the forecast horizon if applicable.
