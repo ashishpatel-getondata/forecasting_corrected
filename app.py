@@ -7,7 +7,7 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 
 st.title("Time Series Forecasting App")
 
-st.write("Upload a CSV file and forecast future values using Exponential Smoothing, SARIMA, or view ETS Decomposition.")
+st.write("Upload a CSV file and forecast future values using Exponential Smoothing, SARIMA, or view Seasonal Decomposition.")
 
 # File upload
 uploaded_file = st.file_uploader("Upload CSV", type="csv")
@@ -21,7 +21,7 @@ if uploaded_file is not None:
     with st.form("forecast_form"):
         date_col = st.selectbox("Select Date Column", df.columns)
         value_col = st.selectbox("Select Value Column (to forecast)", df.columns)
-        model_choice = st.radio("Choose Forecasting Model", ("Exponential Smoothing", "SARIMA", "ETS Decomposition"))
+        model_choice = st.radio("Choose Forecasting Model", ("Exponential Smoothing", "SARIMA", "Seasonal Decomposition"))
         forecast_period = st.number_input("Number of periods to forecast", min_value=1, value=12)
 
         submitted = st.form_submit_button("Submit")
@@ -64,7 +64,12 @@ if uploaded_file is not None:
             ax.legend()
             st.pyplot(fig)
 
-        elif model_choice == "ETS Decomposition":
+            forecast_df = forecast.reset_index()
+            forecast_df.columns = ['date', 'forecast']
+            st.subheader("Forecasted Data")
+            st.dataframe(forecast_df)
+
+        elif model_choice == "Seasonal Decomposition":
             result = seasonal_decompose(ts_data, model='multiplicative', period=12)
 
             fig2, axes = plt.subplots(4, 1, figsize=(10, 8), sharex=True)
